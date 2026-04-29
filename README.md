@@ -174,12 +174,10 @@ Logs:
 docker compose logs -f queue-video-conversions queue-video-post-processing
 ```
 
-## Checks
+## Tests
 
 ```bash
 docker compose exec app php artisan test
-docker compose exec app vendor/bin/phpstan analyse
-docker compose exec app vendor/bin/pint --test
 ```
 
 ## Progress
