@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Modules\VideoConversion\Actions;
 
 use App\Modules\MediaConverter\Contracts\MediaConverterInterface;
@@ -9,6 +11,7 @@ use App\Modules\VideoConversion\Tasks\BuildConversionInputTask;
 use App\Modules\VideoConversion\Tasks\MarkVideoConversionAsCompletedTask;
 use App\Modules\VideoConversion\Tasks\MarkVideoConversionAsFailedTask;
 use App\Modules\VideoConversion\Tasks\MarkVideoConversionAsProcessingTask;
+use App\Modules\VideoConversion\Tasks\UpdateVideoConversionProgressTask;
 
 final readonly class ProcessVideoConversionAction
 {
@@ -16,6 +19,7 @@ final readonly class ProcessVideoConversionAction
         protected MarkVideoConversionAsProcessingTask $markAsProcessingTask,
         protected BuildConversionInputTask $buildConversionInputTask,
         protected MediaConverterInterface $mediaConverter,
+        protected UpdateVideoConversionProgressTask $updateProgressTask,
         protected MarkVideoConversionAsCompletedTask $markAsCompletedTask,
         protected MarkVideoConversionAsFailedTask $markAsFailedTask,
     ) {
@@ -28,7 +32,12 @@ final readonly class ProcessVideoConversionAction
 
         try {
             $input = $this->buildConversionInputTask->run($conversion);
-            $output = $this->mediaConverter->convert($input);
+            $output = $this->mediaConverter->convert(
+                $input,
+                function (int $progress) use ($conversion): void {
+                    $this->updateProgressTask->run($conversion->refresh(), $progress);
+                }
+            );
 
             $this->markAsCompletedTask->run($conversion, $output);
         } catch (InvalidMediaInputException $exception) {

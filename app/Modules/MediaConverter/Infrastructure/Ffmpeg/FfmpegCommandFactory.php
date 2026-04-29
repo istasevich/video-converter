@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Modules\MediaConverter\Infrastructure\Ffmpeg;
 
 use App\Modules\MediaConverter\DTO\ConversionInputDto;
@@ -36,6 +38,7 @@ final readonly class FfmpegCommandFactory
             'aac',
             '-b:a',
             '128k',
+            $outputPath,
         ];
 
         if ($input->options->fastStart) {

@@ -116,7 +116,7 @@ docker compose exec app php artisan migrate
 curl http://localhost:8080/graphql \
   -F operations='{ "query": "mutation ($file: Upload!) { uploadVideo(file: $file) { uuid status progress originalFilename downloadUrl } }", "variables": { "file": null } }' \
   -F map='{ "0": ["variables.file"] }' \
-  -F 0=@/path/to/video.mov
+  -F 0=@tmp/test-video.mov;type=video/quicktime
 ```
 
 Example response:
@@ -128,7 +128,7 @@ Example response:
       "uuid": "9b4f7c4a-86ef-4c11-a6e3-6f4d66b68c9f",
       "status": "queued",
       "progress": 0,
-      "originalFilename": "video.mov",
+      "originalFilename": "test-video.mov",
       "downloadUrl": null
     }
   }
@@ -186,13 +186,11 @@ docker compose exec app vendor/bin/pint --test
 
 Progress is stored at API and persistence level.
 
-Current lifecycle values:
+Current values:
 
 ```txt
 queued       0%
-processing  10%
+processing  1%
 completed   100%
 failed       failure reason is stored
 ```
-
-A production version could parse FFmpeg progress output for more granular updates.

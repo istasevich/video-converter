@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Modules\VideoConversion\Tasks;
 
 use App\Modules\VideoConversion\Enums\VideoConversionStatusEnum;
@@ -13,7 +15,7 @@ final readonly class MarkVideoConversionAsProcessingTask
     {
         $conversion->forceFill([
             'status' => VideoConversionStatusEnum::Processing,
-            'progress' => max($conversion->progress, 10),
+            'progress' => max($conversion->progress, 1),
             'started_at' => $conversion->started_at ?? now(),
         ])->save();
 

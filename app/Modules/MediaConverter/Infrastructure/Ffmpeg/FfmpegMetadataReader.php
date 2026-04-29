@@ -9,7 +9,7 @@ use App\Modules\MediaConverter\Exceptions\TemporaryMediaConverterUnavailableExce
 use App\Modules\MediaConverter\Settings\FfmpegSettings;
 use Symfony\Component\Process\Process;
 
-final readonly class FfmpegProcessRunner
+final readonly class FfmpegMetadataReader
 {
     public function __construct(
         protected FfmpegSettings $settings,
@@ -17,23 +17,38 @@ final readonly class FfmpegProcessRunner
         // Nothing
     }
 
-    public function run(array $command, ?callable $onOutput = null): void
+    public function durationSeconds(string $path): float
     {
-        $process = new Process($command);
+        $process = new Process([
+            $this->settings->ffprobeBinary,
+            '-v',
+            'error',
+            '-show_entries',
+            'format=duration',
+            '-of',
+            'default=noprint_wrappers=1:nokey=1',
+            $path,
+        ]);
         $process->setTimeout($this->settings->timeoutSeconds);
-        $process->run($onOutput);
+        $process->run();
 
-        if ($process->isSuccessful()) {
-            return;
+        if (! $process->isSuccessful()) {
+            $errorOutput = $process->getErrorOutput() ?: $process->getOutput();
+
+            if ($this->looksTemporary($errorOutput)) {
+                throw new TemporaryMediaConverterUnavailableException($errorOutput);
+            }
+
+            throw new InvalidMediaInputException($errorOutput);
         }
 
-        $errorOutput = $process->getErrorOutput() ?: $process->getOutput();
+        $duration = trim($process->getOutput());
 
-        if ($this->looksTemporary($errorOutput)) {
-            throw new TemporaryMediaConverterUnavailableException($errorOutput);
+        if (! is_numeric($duration) || (float) $duration <= 0.0) {
+            throw new InvalidMediaInputException('Unable to read input duration.');
         }
 
-        throw new InvalidMediaInputException($errorOutput);
+        return (float) $duration;
     }
 
     protected function looksTemporary(string $output): bool
