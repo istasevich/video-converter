@@ -17,6 +17,7 @@ final readonly class CreateVideoConversionJobAction
         protected CreateVideoConversionRecordTask $createVideoConversionRecordTask,
         protected DispatchVideoConversionJobTask $dispatchVideoConversionJobTask,
     ) {
+        // Nothing
     }
 
     public function run(UploadedFile $file): VideoConversion

@@ -10,11 +10,6 @@ use Throwable;
 
 final readonly class MarkVideoConversionAsFailedTask
 {
-    public function __construct()
-    {
-        // Nothing
-    }
-
     public function run(VideoConversion $conversion, Throwable $exception): VideoConversion
     {
         $conversion->forceFill([

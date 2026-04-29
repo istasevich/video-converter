@@ -9,11 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 final readonly class MarkVideoConversionAsProcessingTask
 {
-    public function __construct()
-    {
-        // Nothing
-    }
-
     public function run(VideoConversion $conversion): VideoConversion
     {
         $conversion->forceFill([

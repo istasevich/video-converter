@@ -7,11 +7,6 @@ use Illuminate\Support\Facades\Log;
 
 final readonly class LogVideoConversionFailureListener
 {
-    public function __construct()
-    {
-        // Nothing
-    }
-
     public function handle(VideoConversionFailed $event): void
     {
         Log::warning('Video conversion failed', [

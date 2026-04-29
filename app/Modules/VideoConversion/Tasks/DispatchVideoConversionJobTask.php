@@ -10,7 +10,9 @@ final readonly class DispatchVideoConversionJobTask
 {
     public function __construct(
         protected VideoConversionQueueSettings $queueSettings,
-    ) {}
+    ) {
+        // Nothing
+    }
 
     public function run(VideoConversion $conversion): void
     {

@@ -13,6 +13,7 @@ final readonly class VideoConversionOptionsSettings
         public VideoResolutionEnum $maxResolution,
         public bool $fastStart,
     ) {
+        // Nothing
     }
 
     /**

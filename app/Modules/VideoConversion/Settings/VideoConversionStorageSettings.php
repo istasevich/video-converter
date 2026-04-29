@@ -12,6 +12,7 @@ final readonly class VideoConversionStorageSettings
         public string $inputDirectory,
         public string $outputDirectory,
     ) {
+        // Nothing
     }
 
     /**

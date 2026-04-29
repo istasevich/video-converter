@@ -16,7 +16,9 @@ final class PublishVideoConversionCompletedJob implements ShouldQueue
 
     public function __construct(
         protected string $conversionUuid,
-    ) {}
+    ) {
+        // Nothing
+    }
 
     public function handle(): void
     {

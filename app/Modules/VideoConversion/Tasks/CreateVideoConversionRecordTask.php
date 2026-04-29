@@ -8,11 +8,6 @@ use App\Modules\VideoConversion\Models\VideoConversion;
 
 final readonly class CreateVideoConversionRecordTask
 {
-    public function __construct()
-    {
-        // Nothing
-    }
-
     public function run(StoredVideoDto $storedVideo): VideoConversion
     {
         return VideoConversion::query()->create([

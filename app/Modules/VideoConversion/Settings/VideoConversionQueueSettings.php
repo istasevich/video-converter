@@ -13,7 +13,9 @@ final readonly class VideoConversionQueueSettings
         public int $tries,
         public int $timeoutSeconds,
         public array $backoffSeconds,
-    ) {}
+    ) {
+        // Nothing
+    }
 
     /**
      * @param  array{queues: array{conversion: string, post_processing: string}, job: array{tries: int, timeout: int, backoff: list<int>}}  $config

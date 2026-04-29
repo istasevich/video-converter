@@ -11,5 +11,6 @@ final readonly class ConversionInputDto
         public string $outputPath,
         public VideoConversionOptionsDto $options,
     ) {
+        // Nothing
     }
 }

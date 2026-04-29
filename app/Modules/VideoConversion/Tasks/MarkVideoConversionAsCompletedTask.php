@@ -12,11 +12,6 @@ use Illuminate\Support\Facades\Storage;
 
 final readonly class MarkVideoConversionAsCompletedTask
 {
-    public function __construct()
-    {
-        // Nothing
-    }
-
     public function run(VideoConversion $conversion, ConversionOutputDto $output): VideoConversion
     {
         /** @var FilesystemAdapter $outputDisk */

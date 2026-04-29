@@ -12,7 +12,9 @@ final readonly class FfmpegMediaConverter implements MediaConverterInterface
     public function __construct(
         protected FfmpegCommandFactory $commandFactory,
         protected FfmpegProcessRunner $processRunner,
-    ) {}
+    ) {
+        // Nothing
+    }
 
     public function convert(ConversionInputDto $input): ConversionOutputDto
     {

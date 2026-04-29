@@ -11,6 +11,7 @@ final readonly class StoreUploadedVideoTask
     public function __construct(
         protected VideoConversionStorageSettings $storageSettings,
     ) {
+        // Nothing
     }
 
     public function run(UploadedFile $file): StoredVideoDto

@@ -12,6 +12,7 @@ final readonly class UploadVideoMutation
     public function __construct(
         protected CreateVideoConversionJobAction $createVideoConversionJobAction,
     ) {
+        // Nothing
     }
 
     /**

@@ -13,7 +13,9 @@ final readonly class CleanupSourceVideoListener
 {
     public function __construct(
         protected VideoConversionQueueSettings $queueSettings,
-    ) {}
+    ) {
+        // Nothing
+    }
 
     public function handle(VideoConversionCompleted $event): void
     {

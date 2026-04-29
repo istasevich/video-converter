@@ -18,7 +18,9 @@ final readonly class ProcessVideoConversionAction
         protected MediaConverterInterface $mediaConverter,
         protected MarkVideoConversionAsCompletedTask $markAsCompletedTask,
         protected MarkVideoConversionAsFailedTask $markAsFailedTask,
-    ) {}
+    ) {
+        // Nothing
+    }
 
     public function run(VideoConversion $conversion): void
     {

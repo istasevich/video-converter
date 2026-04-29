@@ -9,6 +9,7 @@ final readonly class FfmpegSettings
         public string $ffprobeBinary,
         public int $timeoutSeconds,
     ) {
+        // Nothing
     }
 
     /**

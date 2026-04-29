@@ -10,5 +10,7 @@ final readonly class StoredVideoDto
         public string $originalFilename,
         public ?string $mimeType,
         public ?int $size,
-    ) {}
+    ) {
+        // Nothing
+    }
 }

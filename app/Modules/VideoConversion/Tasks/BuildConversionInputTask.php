@@ -13,6 +13,7 @@ final readonly class BuildConversionInputTask
         protected VideoConversionStorageSettings $storageSettings,
         protected VideoConversionOptionsSettings $optionsSettings,
     ) {
+        // Nothing
     }
 
     public function run(VideoConversion $conversion): ConversionInputDto

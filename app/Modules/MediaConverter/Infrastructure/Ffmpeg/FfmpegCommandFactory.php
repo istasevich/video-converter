@@ -11,6 +11,7 @@ final readonly class FfmpegCommandFactory
     public function __construct(
         protected FfmpegSettings $settings,
     ) {
+        // Nothing
     }
 
     public function makeForBrowserMp4(ConversionInputDto $input): array

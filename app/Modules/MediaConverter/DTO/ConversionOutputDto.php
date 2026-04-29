@@ -13,5 +13,7 @@ final readonly class ConversionOutputDto
         public ?int $width = null,
         public ?int $height = null,
         public ?int $size = null,
-    ) {}
+    ) {
+        // Nothing
+    }
 }

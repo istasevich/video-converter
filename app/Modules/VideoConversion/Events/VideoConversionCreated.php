@@ -8,5 +8,8 @@ final class VideoConversionCreated
 {
     use Dispatchable;
 
-    public function __construct(public readonly string $conversionUuid) {}
+    public function __construct(public readonly string $conversionUuid)
+    {
+        // Nothing
+    }
 }

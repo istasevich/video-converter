@@ -11,5 +11,7 @@ final class VideoConversionFailed
     public function __construct(
         public readonly string $conversionUuid,
         public readonly string $exceptionClass,
-    ) {}
+    ) {
+        // Nothing
+    }
 }

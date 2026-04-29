@@ -12,6 +12,7 @@ final readonly class FfmpegProcessRunner
     public function __construct(
         protected FfmpegSettings $settings,
     ) {
+        // Nothing
     }
 
     public function run(array $command): void
