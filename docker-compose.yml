@@ -1,0 +1,80 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: video_converter_app
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: video_converter_nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+
+  mysql:
+    image: mysql:8.4
+    container_name: video_converter_mysql
+    environment:
+      MYSQL_DATABASE: video_converter
+      MYSQL_USER: video_converter
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "33067:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: video_converter_redis
+    ports:
+      - "63799:6379"
+
+  queue-video-conversions:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: video_converter_queue_conversions
+    working_dir: /var/www/html
+    command: php artisan queue:work redis --queue=video-conversions --sleep=1 --tries=3 --timeout=1800
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - app
+      - redis
+      - mysql
+
+  queue-video-post-processing:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: video_converter_queue_post_processing
+    working_dir: /var/www/html
+    command: php artisan queue:work redis --queue=video-post-processing --sleep=1 --tries=3 --timeout=600
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - app
+      - redis
+      - mysql
+
+volumes:
+  mysql-data:

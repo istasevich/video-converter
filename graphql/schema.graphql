@@ -1,0 +1,33 @@
+scalar Upload @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Upload")
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+enum VideoConversionStatus {
+  queued
+  processing
+  completed
+  failed
+}
+
+type VideoConversionJob {
+  id: ID!
+  uuid: String!
+  status: VideoConversionStatus!
+  progress: Int!
+  originalFilename: String! @rename(attribute: "original_filename")
+  downloadUrl: String @rename(attribute: "download_url")
+  failureReason: String @rename(attribute: "failure_reason")
+  createdAt: DateTime! @rename(attribute: "created_at")
+  startedAt: DateTime @rename(attribute: "started_at")
+  completedAt: DateTime @rename(attribute: "completed_at")
+  failedAt: DateTime @rename(attribute: "failed_at")
+}
+
+type Query {
+  videoConversionJob(uuid: String!): VideoConversionJob
+    @field(resolver: "App\\Modules\\VideoConversion\\GraphQL\\Queries\\VideoConversionJobQuery")
+}
+
+type Mutation {
+  uploadVideo(file: Upload!): VideoConversionJob!
+    @field(resolver: "App\\Modules\\VideoConversion\\GraphQL\\Mutations\\UploadVideoMutation")
+}
